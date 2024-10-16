@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쉿! 개인정보 샌다</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            width: 350px;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            padding: 20px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin: 0;
+            color: #4a4a4a;
+        }
+        .info-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .suspicious-count {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .third-party-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .third-party-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f1f3f5;
+            border-radius: 4px;
+        }
+        .company-name {
+            font-weight: bold;
+            color: #3498db;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .details-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        .details-btn:hover {
+            background-color: #2980b9;
+        }
+        .settings-btn {
+            background-color: #95a5a6;
+            color: white;
+        }
+        .settings-btn:hover {
+            background-color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>쉿! 개인정보 샌다</h1>
+        </header>
+        <div class="info-section">
+            <h2>의심 조항</h2>
+            <p>이 사이트의 의심 조항 개수: <span class="suspicious-count" id="suspiciousCount">5</span></p>
+        </div>
+        <div class="info-section">
+            <h2>제3자 회사</h2>
+            <ul class="third-party-list" id="thirdPartyList">
+                <li class="third-party-item">
+                    <span class="company-name">A 광고회사</span>
+                </li>
+                <li class="third-party-item">
+                    <span class="company-name">B 데이터 분석 회사</span>
+                </li>
+                <!-- 추가 회사들... -->
+            </ul>
+        </div>
+        <div class="button-container">
+            <button class="button details-btn" id="detailsButton">상세 정보</button>
+            <button class="button settings-btn" id="settingsButton">설정</button>
+        </div>
+    </div>
+    <script src="../scripts/popup.js"></script>
+</body>
+</html>

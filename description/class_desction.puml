@@ -1,0 +1,112 @@
+/*
+UserSettings:
+
+IndexedDB에 저장되는 유일한 데이터입니다.
+SettingsManager를 통해 관리됩니다.
+
+
+UserAction:
+
+데이터베이스에 저장되지 않습니다.
+UserActionTracker 클래스 내의 배열(userActions)에 메모리 상에서만 유지됩니다.
+새로운 메서드 trimActions를 추가하여 메모리 사용을 관리합니다.
+
+
+TextAnalysisResult 및 WebsiteAnalysisResult:
+
+데이터베이스에 저장되지 않습니다.
+분석 시 생성되어 메모리에서 임시로 사용됩니다.
+
+*/
+@startuml  description/class_description
+
+class PrivacyGuard {
+    -TextAnalyzer textAnalyzer
+    -WebsiteAnalyzer websiteAnalyzer
+    -UserActionTracker userActionTracker
+    -NotificationManager notificationManager
+    -SettingsManager settingsManager
+    +initialize()
+    +analyzeWebsite(url: string)
+    +trackUserAction(action: UserAction)
+    +showNotification(message: string)
+    +updateSettings(settings: UserSettings)
+}
+
+class TextAnalyzer {
+    -tokenize(text: string): string[]
+    -computeTFIDF(tokens: string[]): Map<string, number>
+    -vectorize(tfidf: Map<string, number>): number[]
+    -cluster(vector: number[]): number
+    +analyzeText(text: string): TextAnalysisResult
+}
+
+class WebsiteAnalyzer {
+    -checkHttps(url: string): boolean
+    -checkPrivacyPolicy(url: string): boolean
+    -check2FA(url: string): boolean
+    -checkCookieConsent(url: string): boolean
+    +analyzeWebsite(url: string): WebsiteAnalysisResult
+}
+
+class UserActionTracker {
+    -userActions: UserAction[]
+    +addUserAction(action: UserAction)
+    +getUserActions(): UserAction[]
+    -trimActions(maxSize: number)
+}
+
+class NotificationManager {
+    +showNotification(message: string)
+}
+
+class SettingsManager {
+    -db: IDBDatabase
+    +getUserSettings(): Promise<UserSettings>
+    +updateUserSettings(settings: UserSettings): Promise<void>
+}
+
+class UserSettings {
+    +notificationLevel: string
+    +dataCollectionConsent: boolean
+    +analysisThreshold: number
+}
+
+' UserAction 인터페이스 정의
+class UserAction {
+    <<interface>>
+    +type: string
+    +url: string
+    +timestamp: number
+    +details: object
+}
+
+' TextAnalysisResult 인터페이스 정의
+class TextAnalysisResult {
+    <<interface>>
+    +cluster: number
+    +score: number
+    +keyTerms: string[]
+}
+
+' WebsiteAnalysisResult 인터페이스 정의
+class WebsiteAnalysisResult {
+    <<interface>>
+    +privacyScore: number
+    +safetyFeatures: object
+    +textAnalysisResult: TextAnalysisResult
+}
+
+' 클래스 간의 관계 정의
+PrivacyGuard --> TextAnalyzer
+PrivacyGuard --> WebsiteAnalyzer
+PrivacyGuard --> UserActionTracker
+PrivacyGuard --> NotificationManager
+PrivacyGuard --> SettingsManager
+SettingsManager --> UserSettings
+UserActionTracker o-- UserAction
+TextAnalyzer ..> TextAnalysisResult
+WebsiteAnalyzer ..> WebsiteAnalysisResult
+WebsiteAnalysisResult ..> TextAnalysisResult
+
+@enduml
